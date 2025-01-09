@@ -16,6 +16,17 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "db:generate": {
+      "cache": false,
+      "outputs": []
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:initial": {
+      "dependsOn": ["^db:initial"],
+      "outputs": []
     }
   }
 }
