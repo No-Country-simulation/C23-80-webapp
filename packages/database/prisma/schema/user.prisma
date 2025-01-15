@@ -3,6 +3,8 @@ model User {
     email     String   @unique
     name      String?
 
+    posts     Post[]
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
