@@ -24,9 +24,9 @@ model Skill {
     seo             Json?
     available       Boolean @default(true)
 
-    category    SkillCategory     @relation(fields: [categoryId], references: [id])
-    categoryId  String
+    category    SkillCategory[]
     collections SkillCollection[]
+    reviews     Review[]
 }
 
 model SkillCollection {
@@ -39,4 +39,23 @@ model SkillCollection {
     available     Boolean @default(true)
 
     skills Skill[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+
+model Review {
+    id        String   @id @default(uuid())
+    rating    Int      @default(5) // Puntuación (Ej: de 1 a 5)
+    comment   String?  // Comentario opcional
+    createdAt DateTime @default(now())
+
+    skillId   String
+    skill     Skill    @relation(fields: [skillId], references: [id])
+
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+
+    @@unique([skillId, userId], name: "unique_review")
 }

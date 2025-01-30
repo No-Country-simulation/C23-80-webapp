@@ -1,10 +1,39 @@
 model User {
-    id        String   @id @default(uuid())
-    email     String   @unique
-    name      String?
+    id       String @id @default(uuid())
+    email    String @unique
+    name     String
+    password String
 
-    posts     Post[]
+    role        String   @default("USER") // USER | ADMIN | SUPERADMIN
+    permissions String[] @default(["READ"]) // CREATE | READ | UPDATE | DELETE
+
+    posts   Post[]
+    reviews Review[]
+    profile Profile?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model Profile {
+    id     String  @id @default(uuid())
+    bio    String?
+    image  Json?
+    userId String  @unique
+    user   User    @relation(fields: [userId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum Role {
+    USER
+    ADMIN
+}
+
+enum Permission {
+    CREATE
+    READ
+    UPDATE
+    DELETE
 }

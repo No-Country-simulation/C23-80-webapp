@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ResourcesService } from './resources.service';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { UpdateResourceDto } from './dto/update-resource.dto';
+import { PaginationDto } from 'src/common/dto';
 
 @Controller('resources')
 export class ResourcesController {
@@ -13,22 +14,22 @@ export class ResourcesController {
   }
 
   @Get()
-  findAll() {
-    return this.resourcesService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.resourcesService.findAll(paginationDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.resourcesService.findOne(+id);
+  @Get(':handle')
+  findOne(@Param('handle') handle: string) {
+    return this.resourcesService.findOne(handle);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateResourceDto: UpdateResourceDto) {
-    return this.resourcesService.update(+id, updateResourceDto);
+    return this.resourcesService.update(id, updateResourceDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.resourcesService.remove(+id);
+    return this.resourcesService.remove(id);
   }
 }
