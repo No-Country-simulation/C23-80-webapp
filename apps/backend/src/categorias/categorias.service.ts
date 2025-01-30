@@ -3,7 +3,6 @@ import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { createSlug } from "src/utils/create-slug";
 import { PaginationDto } from 'src/common/dto';
-import { InputJsonValue } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -13,11 +12,12 @@ export class CategoriasService {
   create(createCategoriaDto: CreateCategoriaDto) {
     const { title, featuredImage } = createCategoriaDto;
     const slug = createSlug(title);
+    const imageObj = {...(featuredImage && featuredImage)};
     return this.db.skillCategory.create({
       data: {
         ...createCategoriaDto,
         handle: slug,
-        featuredImage: featuredImage as unknown as InputJsonValue
+        featuredImage: imageObj
       }
     })
   }
@@ -51,16 +51,26 @@ export class CategoriasService {
   }
 
   update(id: string, updateCategoriaDto: UpdateCategoriaDto) {
-    const {title, featuredImage, seo} = updateCategoriaDto;
+    const {title, featuredImage, seo, resources} = updateCategoriaDto;
     const slug = createSlug(title);
+    const imageObj = {...(featuredImage && featuredImage)};
+    const seoObj = (seo && {
+      ...seo,
+      image: seo.image && {...seo.image}
+    })
 
     return this.db.skillCategory.update({
       where: { id},
       data: {
         ...updateCategoriaDto,
         handle: slug,
-        featuredImage: featuredImage as unknown as InputJsonValue,
-        seo: seo as unknown as InputJsonValue
+        featuredImage: imageObj,
+        seo: seoObj,
+        ...(resources && {
+          skills: {
+            connect: resources.map((id) => ({ id }))
+          }
+        })
       }
     });
   }

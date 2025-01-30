@@ -4,6 +4,9 @@ import { ImageDto } from "src/common/dto";
 
 export class CreateResourceDto {
     @IsString()
+    userId: string;
+
+    @IsString()
     title: string;
 
     @IsOptional()

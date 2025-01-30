@@ -2,7 +2,7 @@ import { IsOptional, IsPositive, IsString, IsUrl } from "class-validator";
 
 export class ImageDto {
     @IsUrl()
-    secureUrl: string;
+    secure_url: string;
     
     @IsString()
     public_id: string;

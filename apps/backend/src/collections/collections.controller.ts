@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CollectionsService } from './collections.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { UpdateCollectionDto } from './dto/update-collection.dto';
+import { PaginationDto } from 'src/common/dto';
 
 @Controller('collections')
 export class CollectionsController {
@@ -13,22 +14,22 @@ export class CollectionsController {
   }
 
   @Get()
-  findAll() {
-    return this.collectionsService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.collectionsService.findAll(paginationDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.collectionsService.findOne(+id);
+  @Get(':handle')
+  findOne(@Param('handle') handle: string) {
+    return this.collectionsService.findOne(handle);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCollectionDto: UpdateCollectionDto) {
-    return this.collectionsService.update(+id, updateCollectionDto);
+    return this.collectionsService.update(id, updateCollectionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.collectionsService.remove(+id);
+    return this.collectionsService.remove(id);
   }
 }
