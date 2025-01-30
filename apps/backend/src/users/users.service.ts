@@ -51,7 +51,7 @@ export class UsersService {
 
   update(id: string, updateUserDto: UpdateUserDto) {
     delete updateUserDto.password;
-    const { profile, review } = updateUserDto;
+    const { profile } = updateUserDto;
     const imageObj = {...(profile?.image && profile.image)};
     return this.db.user.update({
       where: { id, status: true },
@@ -62,19 +62,14 @@ export class UsersService {
             where: { userId: id },
             create: {
               ...profile,
-              image: imageObj
+              ...(imageObj.secure_url && { image: imageObj })
             },
             update: {
               ...profile,
-              image: imageObj
+              ...(imageObj.secure_url && { image: imageObj })
             }
           }
         },
-        ...(review && {
-          reviews: {
-            create: review
-          }
-        })
       },
       include: { profile: true }
     })

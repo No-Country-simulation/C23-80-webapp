@@ -64,7 +64,7 @@ export class CategoriasService {
       data: {
         ...updateCategoriaDto,
         handle: slug,
-        featuredImage: imageObj,
+        ...(featuredImage.secure_url && {featuredImage: imageObj}),
         seo: seoObj,
         ...(resources && {
           skills: {

@@ -3,6 +3,7 @@ import { ResourcesService } from './resources.service';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { UpdateResourceDto } from './dto/update-resource.dto';
 import { PaginationDto } from 'src/common/dto';
+import { UserReviewDto } from './dto/user-review.dto';
 
 @Controller('resources')
 export class ResourcesController {
@@ -26,6 +27,11 @@ export class ResourcesController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateResourceDto: UpdateResourceDto) {
     return this.resourcesService.update(id, updateResourceDto);
+  }
+
+  @Post(':id/reviews')
+  createReview(@Param('id') id: string, @Body() userReviewDto: UserReviewDto) {
+    return this.resourcesService.createReview(id, userReviewDto);
   }
 
   @Delete(':id')

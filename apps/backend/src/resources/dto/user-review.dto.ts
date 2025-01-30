@@ -2,7 +2,7 @@ import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class UserReviewDto {
     @IsString()
-    skillId: string;
+    userId: string;
 
     @IsInt({ message: 'El rating debe ser un número entero' })
     @Min(1, { message: 'El rating no puede ser menor a 1' })
