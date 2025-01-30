@@ -11,13 +11,17 @@ export class ResourcesService {
   constructor(private readonly db: PrismaService) {}
 
   create(createResourceDto: CreateResourceDto) {
-    const { title, featuredImage } = createResourceDto;
+    const { title, featuredImage, categories } = createResourceDto;
     const slug = createSlug(title);
+    const imageObj = {...(featuredImage && featuredImage)};
     return this.db.skill.create({
       data: {
         ...createResourceDto,
         handle: slug,
-        featuredImage: featuredImage as unknown as InputJsonValue
+        featuredImage: imageObj,
+        categories: {
+          connect: categories.map((id) => ({id}))
+        }
       }
     })
   }
@@ -45,20 +49,37 @@ export class ResourcesService {
     if (!resource) {
       throw new NotFoundException(`El recurso con la url ${handle} no existe`);
     }
+    await this.db.skill.update({
+      where: {handle},
+      data: {
+        visibilityCount: {increment: 1}
+      }
+    })
     return resource;
   }
 
   update(id: string, updateResourceDto: UpdateResourceDto) {
-    const { title, featuredImage, seo } = updateResourceDto;
+    const { title, featuredImage, seo, categories } = updateResourceDto;
     const slug = createSlug(title);
+    const imageObj = {...(featuredImage && featuredImage)};
+    const seoObj = (seo && {
+      ...seo,
+      image: seo.image && {...seo.image}
+    });
 
     return this.db.skill.update({
       where: { id },
       data: {
         ...updateResourceDto,
         handle: slug,
-        featuredImage: featuredImage as unknown as InputJsonValue,
-        seo: seo as unknown as InputJsonValue
+        featuredImage: imageObj,
+        seo: seoObj,
+        ...(categories && {
+          categories: {
+            deleteMany: {},
+            connect: categories.map((id) => ({ id }))
+          }
+        })
       }
     })
   }
