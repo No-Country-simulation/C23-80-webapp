@@ -62,7 +62,7 @@ export class CollectionsService {
       data: {
         ...updateCollectionDto,
         handle: slug,
-        featuredImage: imageObj,
+        ...(featuredImage.secure_url && {featuredImage: imageObj}),
         seo: seoObj,
         ...(resources && {
           skills: {

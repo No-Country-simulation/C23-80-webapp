@@ -4,7 +4,7 @@ import { UpdateResourceDto } from './dto/update-resource.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { PaginationDto } from 'src/common/dto';
 import { createSlug } from 'src/utils/create-slug';
-import { InputJsonValue } from '@prisma/client/runtime/library';
+import { UserReviewDto } from './dto/user-review.dto';
 
 @Injectable()
 export class ResourcesService {
@@ -72,7 +72,7 @@ export class ResourcesService {
       data: {
         ...updateResourceDto,
         handle: slug,
-        featuredImage: imageObj,
+        ...(featuredImage.secure_url && {featuredImage: imageObj}),
         seo: seoObj,
         ...(categories && {
           categories: {
@@ -80,6 +80,21 @@ export class ResourcesService {
             connect: categories.map((id) => ({ id }))
           }
         })
+      }
+    })
+  }
+
+  createReview(id: string, reveiwDto: UserReviewDto) {
+    return this.db.skill.update({
+      where: {id},
+      data: {
+        reviews: {
+          upsert: {
+            where: { unique_review: {skillId:id, userId:reveiwDto.userId} },
+            update: reveiwDto,
+            create: reveiwDto
+          }
+        }
       }
     })
   }
