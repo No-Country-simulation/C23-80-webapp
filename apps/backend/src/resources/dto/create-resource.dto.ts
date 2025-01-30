@@ -1,13 +1,24 @@
-import { IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsOptional, IsString, IsUrl, ValidateNested } from "class-validator";
+import { ImageDto } from "src/common/dto";
 
 export class CreateResourceDto {
     @IsString()
     title: string;
 
-    @IsString()
     @IsOptional()
-    description: string;
-
     @IsString()
+    description?: string;
+
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => ImageDto)
+    featuredImage?: ImageDto;
+
+    @IsUrl()
     url: string;
+
+    @IsArray()
+    @IsString({ each: true })
+    categories: string[];
 }

@@ -1,33 +1,74 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { UpdateResourceDto } from './dto/update-resource.dto';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+import { PaginationDto } from 'src/common/dto';
+import { createSlug } from 'src/utils/create-slug';
+import { InputJsonValue } from '@prisma/client/runtime/library';
 
 @Injectable()
-export class ResourcesService extends PrismaClient implements OnModuleInit {
-  private readonly logger = new Logger('ResourcesService');
+export class ResourcesService {
+  constructor(private readonly db: PrismaService) {}
 
-  onModuleInit() {
-    this.$connect();
-    this.logger.log('Database connected');
-  }
   create(createResourceDto: CreateResourceDto) {
-    return 'This action adds a new resource';
+    const { title, featuredImage } = createResourceDto;
+    const slug = createSlug(title);
+    return this.db.skill.create({
+      data: {
+        ...createResourceDto,
+        handle: slug,
+        featuredImage: featuredImage as unknown as InputJsonValue
+      }
+    })
   }
 
-  findAll() {
-    return `This action returns all resources`;
+  async findAll(paginationDto: PaginationDto) {
+    const { page, limit } = paginationDto;
+    const totalRercords = await this.db.skill.count({where: {available: true}});
+    const totalPages = Math.ceil(totalRercords / limit);
+    return {
+      data: await this.db.skill.findMany({
+        take: limit,
+        skip: (page - 1) * limit
+      }),
+      meta: {
+        page,
+        totalRercords,
+        totalPages
+      }
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} resource`;
+  async findOne(handle: string) {
+    const resource = await this.db.skill.findUnique({where: {handle, available: true}});
+
+    if (!resource) {
+      throw new NotFoundException(`El recurso con la url ${handle} no existe`);
+    }
+    return resource;
   }
 
-  update(id: number, updateResourceDto: UpdateResourceDto) {
-    return `This action updates a #${id} resource`;
+  update(id: string, updateResourceDto: UpdateResourceDto) {
+    const { title, featuredImage, seo } = updateResourceDto;
+    const slug = createSlug(title);
+
+    return this.db.skill.update({
+      where: { id },
+      data: {
+        ...updateResourceDto,
+        handle: slug,
+        featuredImage: featuredImage as unknown as InputJsonValue,
+        seo: seo as unknown as InputJsonValue
+      }
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} resource`;
+  remove(id: string) {
+    return this.db.skill.update({
+      where: {id, available: true}, 
+      data: {
+        available: false
+      }
+    });
   }
 }

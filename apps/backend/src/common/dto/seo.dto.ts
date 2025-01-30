@@ -1,10 +1,10 @@
+import { Type } from "class-transformer";
 import { IsOptional, IsString, ValidateNested } from "class-validator";
 import { ImageDto } from "src/common/dto/image.dto";
-import { Type } from "class-transformer";
 
-export class CreateCategoriaDto {
+export class SeoDto {
     @IsString()
-    public title: string;
+    title: string;
     
     @IsString()
     description: string;
@@ -12,5 +12,5 @@ export class CreateCategoriaDto {
     @IsOptional()
     @ValidateNested()
     @Type(() => ImageDto)
-    featuredImage?: ImageDto;
+    image?: ImageDto;
 }

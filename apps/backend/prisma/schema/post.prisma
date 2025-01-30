@@ -3,7 +3,6 @@ model Post {
     title           String
     handle          String
     content         String
-    //TODO: Add a field for the excerpt
     featuredImage   Json
     gallery         Json[]
     visibilityCount Int     @default(0)
