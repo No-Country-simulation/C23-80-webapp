@@ -30,7 +30,7 @@ const Home = () => {
         <Carousel />
       </div>
       <div className='w-full max-w-[1200px] relative mt-12'>
-        <h2 className='text-xl font-bold mb-4'>Otras novedades</h2>
+        <h2 style={{color: 'var(--purple10)', font: 'var(--h2)'}} className='text-xl font-bold mb-4'>Otras novedades</h2>
         <button
           onClick={scrollLeft}
           className='absolute left-3 top-1/2 -translate-y-1/2 bg-white/60 p-2 rounded-full shadow-md z-10'

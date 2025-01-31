@@ -7,7 +7,7 @@ const Explore = () => {
       <SearchI />
 
       <section className="mb-24">
-        <h2 style={{color: 'var(--purple)'}} className='text-xl font-bold mb-4'>Nuevas publicaciones</h2>
+        <h2 style={{color: 'var(--purple)', font: 'var(--h1)'}} className='text-xl font-bold mb-4'>Nuevas publicaciones</h2>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
           <Card backgroundImage='https://picsum.photos/1000/500?random=1' />
           <Card backgroundImage='https://picsum.photos/1000/500?random=2' />
@@ -16,7 +16,7 @@ const Explore = () => {
       </section>
 
       <section className="mb-24">
-        <h2 style={{color: 'var(--purple)'}} className='text-xl font-bold mb-4'>Las más populares</h2>
+        <h2 style={{color: 'var(--purple)', font: 'var(--h1)'}} className='text-xl font-bold mb-4'>Las más populares</h2>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
           <Card backgroundImage='https://picsum.photos/1000/500?random=4' />
           <Card backgroundImage='https://picsum.photos/1000/500?random=5' />
@@ -24,7 +24,7 @@ const Explore = () => {
       </section>
 
       <section>
-        <h2 style={{color: 'var(--purple)'}} className='text-xl font-bold mb-4'>Colecciones</h2>
+        <h2 style={{color: 'var(--purple)', font: 'var(--h1)'}} className='text-xl font-bold mb-4'>Colecciones</h2>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
           <Card backgroundImage='https://picsum.photos/1000/500?random=6' />
           <Card backgroundImage='https://picsum.photos/1000/500?random=7' />
