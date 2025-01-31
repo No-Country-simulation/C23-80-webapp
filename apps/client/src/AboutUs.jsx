@@ -1,9 +1,6 @@
-import Navbar from "./components/Navbar";
-
 const AboutUs = () => {
   return(
     <>
-      <Navbar />
       <div className="flex flex-col items-center w-full mt-2">
         <div className="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between py-16 px-6 bg-white space-y-6 md:space-y-0 md:space-x-6">
           <h2 style={{color: "var(--purple)"}} className="text-5xl font-bold">¿Quiénes somos?</h2>
