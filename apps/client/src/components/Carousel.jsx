@@ -8,7 +8,7 @@ const slides = [
   {title: 'UI/UX', image: 'https://picsum.photos/1000/500?random=4'},
 ]
 
-const Carousel = () => {
+const Carousel = ({ isCarousel = true }) => {
   const [currentImage, setCurrentImage] = useState(0);
 
   const prevSlide = () => {
@@ -32,18 +32,24 @@ const Carousel = () => {
         </div>
       </div>
 
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-3 rounded-full shadow-md hover:bg-gray-900"
-      >
-        <ChevronLeft size={30} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-3 rounded-full shadow-md hover:bg-gray-900"
-      >
-        <ChevronRight size={30} />
-      </button>
+      {
+        isCarousel && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-3 rounded-full shadow-md hover:bg-gray-900"
+            >
+              <ChevronLeft size={30} />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-3 rounded-full shadow-md hover:bg-gray-900"
+            >
+              <ChevronRight size={30} />
+            </button>
+          </>
+        )
+      }
     </div>
   )
 }
