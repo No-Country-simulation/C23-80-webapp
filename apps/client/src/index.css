@@ -26,3 +26,7 @@
   --h4: 400 20px 'Roboto Condensed', sans-serif;
   --text: 400 15px 'Roboto Condensed', sans-serif;
 }
+
+body{
+  font: var(--text);
+}
