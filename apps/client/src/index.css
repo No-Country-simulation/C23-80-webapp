@@ -7,6 +7,7 @@
   --blue: #55A8D6;
   --blue-hover: #458aaf;
   --purple: #9C75B0;
+  --purple10: #3C0C55;
   --purple-hover: #7b4498;
   --pink: #FF738F;
   --negative: #EA080B;
@@ -19,4 +20,9 @@
   --grey40: #D9D9D9;
   --grey50: #ECECEC;
   --grey60: #FFFFFF;
+  --h1: 700 40px 'Roboto Condensed', sans-serif;
+  --h2: 600 32px 'Roboto Condensed', sans-serif;
+  --h3: 600 26px 'Roboto Condensed', sans-serif;
+  --h4: 400 20px 'Roboto Condensed', sans-serif;
+  --text: 400 15px 'Roboto Condensed', sans-serif;
 }
