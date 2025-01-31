@@ -5,7 +5,7 @@ const NewsCard = () => {
   }
 
   return(
-    <div className='bg-gray-200 w-90 rounded-lg shadow-md overflow-hidden'>
+    <div className='bg-gray-200 min-w-[250px] max-w-sm w-full rounded-lg shadow-md overflow-hidden flex-shrink-0'>
       <div className='h-40 relative flex items-start space-x-2 p-2'>
         <Star className='cursor-pointer active:scale-90 transition-transform duration-300' />
         <Bookmark className='cursor-pointer active:scale-90 transition-transform duration-300' />
