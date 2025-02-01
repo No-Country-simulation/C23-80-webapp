@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import AboutUs from './AboutUs'
 import Explore from './Explore'
 import Categories from './Categories'
+import Login from './Login'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path='/explorar' element={<Explore />} />
         <Route path='/categorias' element={<Categories />} />
         <Route path='/sobre-nosotros' element={<AboutUs />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   )
