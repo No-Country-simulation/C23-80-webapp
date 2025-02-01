@@ -1,68 +1,32 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+:root{
+  --orange10: #FF5A4C;
+  --orange20: #FF7923;
+  --yellow: #FEB143;
+  --blue: #55A8D6;
+  --blue-hover: #458aaf;
+  --purple: #9C75B0;
+  --purple10: #3C0C55;
+  --purple-hover: #7b4498;
+  --pink: #FF738F;
+  --negative: #EA080B;
+  --notice: #F7B204;
+  --positive: #8CAA11;
+  --informative: #00A18B;
+  --grey10: #444444;
+  --grey20: #7F7F7F;
+  --grey30: #C8C8C8;
+  --grey40: #D9D9D9;
+  --grey50: #ECECEC;
+  --grey60: #FFFFFF;
+  --h1: 700 40px 'Roboto Condensed', sans-serif;
+  --h2: 600 32px 'Roboto Condensed', sans-serif;
+  --h3: 600 26px 'Roboto Condensed', sans-serif;
+  --h4: 400 20px 'Roboto Condensed', sans-serif;
+  --text: 400 15px 'Roboto Condensed', sans-serif;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+body{
+  font: var(--text);
 }
