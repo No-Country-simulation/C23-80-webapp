@@ -2,11 +2,31 @@ import Carousel from './components/Carousel';
 import NewsCard from './components/NewsCard';
 import SearchI from './components/Search';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { fetchCategories } from './Apis';
 
 const Home = () => {
   const scrollRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(false);
 
+  useEffect(() => {
+    const getResources = async () => {
+      try {
+        const result = await fetchCategories();
+        if (Array.isArray(result) && result.length > 0) {
+          setCategories(result);
+        } else {
+          setCategories([]);
+        }
+      } catch (err) {
+        console.error('Error al obtener datos:', err);
+        setError(err.message);
+      } 
+    };
+    getResources();
+  }, []);
+  
   const scrollLeft = () => {
     scrollRef.current.scrollBy({
       left: -400,
@@ -27,7 +47,7 @@ const Home = () => {
         <SearchI />
       </div>
       <div className='w-full'>
-        <Carousel />
+        <Carousel isCarousel={true} data={categories} />
       </div>
       <div className='w-full max-w-[1200px] relative mt-12'>
         <h2 style={{color: 'var(--purple10)', font: 'var(--h2)'}} className='text-xl font-bold mb-4'>Otras novedades</h2>
