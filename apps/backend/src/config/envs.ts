@@ -5,7 +5,8 @@ const envSchema = z.object({
     PORT: z.string().refine((value) => !isNaN(parseInt(value)), {
         message: 'PORT must be a number',
     }),
-    DATABASE_URL: z.string()
+    DATABASE_URL: z.string(),
+    JWT_SECRET: z.string(),
 });
 
 const validatedData = envSchema.safeParse(process.env);

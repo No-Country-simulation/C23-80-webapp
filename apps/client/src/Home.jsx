@@ -2,9 +2,11 @@ import Carousel from './components/Carousel';
 import NewsCard from './components/NewsCard';
 import SearchI from './components/Search';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { fetchData } from './utils/api';
 
 const Home = () => {
+  const [categories, setCategories] = useState([]);
   const scrollRef = useRef(null);
 
   const scrollLeft = () => {
@@ -21,13 +23,17 @@ const Home = () => {
     });
   };
 
+  useEffect(() => {
+    fetchData({path:"/categorias"}).then(setCategories);
+  }, []);
+
   return (
     <div className='w-full flex flex-col items-center space-y-8 px-4 lg:px-8 my-10'>
       <div className='w-full mt-4 flex justify-center'>
         <SearchI />
       </div>
       <div className='w-full'>
-        <Carousel />
+        <Carousel carrouselItems={categories?.data} />
       </div>
       <div className='w-full max-w-[1200px] relative mt-12'>
         <h2 style={{color: 'var(--purple10)', font: 'var(--h2)'}} className='text-xl font-bold mb-4'>Otras novedades</h2>

@@ -1,5 +1,11 @@
 import {Star, Bookmark} from 'lucide-react'
 
+/**
+ * NewsCard component
+ * @description Componente que muestra una tarjeta de noticia
+ * @param {object} props - Propiedades del componente
+ * @returns JSX.Element
+ */
 const NewsCard = () => {
   const handleClic = () =>{    
   }
