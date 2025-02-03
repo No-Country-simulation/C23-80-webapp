@@ -18,7 +18,9 @@ function App() {
         <Route path='/explorar' element={<Explore />} />
         <Route path='/categorias' element={<Categories />} />
         <Route path='/sobre-nosotros' element={<AboutUs />} />
+        <Route path='/auth:user_id' element={<></>} />
         <Route path='/login' element={<Login />} />
+        <Route path='/registro' element={<></>} />
       </Routes>
     </BrowserRouter>
   )
