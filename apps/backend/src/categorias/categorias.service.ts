@@ -42,7 +42,15 @@ export class CategoriasService {
 
   async findOne(handle: string) {
     const category = await  this.db.skillCategory.findUnique({
-      where: { handle, available: true }
+      where: { handle, available: true },
+      include: {
+        skills: {
+          where: { available: true },
+          include: {
+            reviews: true
+          }
+        }
+      }
     });
     if(!category) {
       throw new NotFoundException(`La categoria con la url ${handle} no existe`);
