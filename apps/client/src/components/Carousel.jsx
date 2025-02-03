@@ -3,7 +3,8 @@ import { useState } from 'react';
 
 const Carousel = ({ isCarousel = true, data = [], title = '', image = '' }) => {
   const [currentImage, setCurrentImage] = useState(0);
-  const slides = isCarousel && data.length > 0 ? data : [{title, image}];
+  const slides = isCarousel && data.length > 0 ? data : [{ title, featuredImage: { secure_url: image } }];
+  
   const prevSlide = () => {
     setCurrentImage((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
   }
