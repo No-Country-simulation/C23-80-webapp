@@ -6,6 +6,7 @@ import AboutUs from './AboutUs'
 import Explore from './Explore'
 import Categories from './Categories'
 import Login from './Login'
+import Category from './components/Category'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='/auth:user_id' element={<></>} />
         <Route path='/login' element={<Login />} />
         <Route path='/registro' element={<></>} />
+        <Route path='/category' element={<Category />} />
       </Routes>
     </BrowserRouter>
   )
