@@ -66,7 +66,7 @@ export class ResourcesService {
 
   async findOne(handle: string) {
     const resource = await this.db.skill.findUnique({where: {handle, available: true}});
-    console.log(resource);
+    
     if (!resource) {
       throw new NotFoundException(`El recurso con la url ${handle} no existe`);
     }

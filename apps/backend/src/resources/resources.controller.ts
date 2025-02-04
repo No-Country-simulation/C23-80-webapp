@@ -30,7 +30,6 @@ export class ResourcesController {
   @Public()
   @Get(':handle')
   findOne(@Param('handle') handle: string) {
-    console.log(handle);
     return this.resourcesService.findOne(handle);
   }
 

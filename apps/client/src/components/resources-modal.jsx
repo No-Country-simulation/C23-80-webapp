@@ -23,7 +23,7 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
             fetchData({ path: `/resources/${resourceId}` }).then(setResource);
         }
     }, []);
-
+    
     return (
         <div className="absolute top-0 z-20 left-0 w-full h-full bg-black/50 bg-opacity-90 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg max-w-[420px] w-full">
