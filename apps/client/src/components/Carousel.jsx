@@ -1,9 +1,14 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-const Carousel = ({ isCarousel = true, data = [], title = '', image = '' }) => {
+const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
+  const navigate = useNavigate();
   const [currentImage, setCurrentImage] = useState(0);
-  const slides = isCarousel && data.length > 0 ? data : [{ title, featuredImage: { secure_url: image } }];
+  const slides = isCarousel && data.length > 0 
+  ? data 
+  : [{ title, featuredImage: { secure_url: image } }];
+  const handleCategory = slides[currentImage].handle;
   
   const prevSlide = () => {
     setCurrentImage((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
@@ -13,10 +18,17 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = '' }) => {
     setCurrentImage((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   }
 
+
+  const handleClickCarousel = () => {
+    if(isCarousel){
+      navigate(`/categoria/${handleCategory}`);
+    }
+  }
+
   return(
     <div className='relative w-full max-w-[1200px] mx-auto'>
       {slides.length > 0 && slides[currentImage]?.featuredImage ? (
-        <div className='relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-lg shadow-lg'>
+        <div onClick={handleClickCarousel} className={`relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-lg shadow-lg ${isCarousel ? 'cursor-pointer' : ''}`}>
           <img 
             src={slides[currentImage].featuredImage.secure_url}
             alt={slides[currentImage].title}

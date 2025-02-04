@@ -3,29 +3,47 @@ import NewsCard from './NewsCard'
 import Carousel from './Carousel';
 import SearchI from './Search';
 import { useEffect, useRef, useState } from 'react';
-import { fetchCategories } from '../Apis';
+import { fetchCategories, getResourcesByHandle } from '../Apis';
+import { useParams } from 'react-router';
 
 const Category = () => {
   const scrollRef = useRef(null);
-  const [categorie, setCategorie] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [resources, setResources] = useState([]);
   const [error, setError] = useState(false);
+  const { handle } = useParams();  
 
   useEffect(() => {
-    const getResources = async () => {
+    console.log("Valor de handle en useEffect:", handle);
+    const fetchData = async () => {
       try {
-        const result = await fetchCategories();
-        if (Array.isArray(result) && result.length > 0) {
-          setCategorie(result);
-        } else {
-          setCategorie([]);
+        const categories = await fetchCategories();
+        if (Array.isArray(categories) && categories.length > 0) {
+          const filteredCategory = categories.find(item => item.handle === handle);
+          setCategory(filteredCategory || null);
         }
       } catch (err) {
-        console.error('Error al obtener datos:', err);
-        setError(err.message);
-      } 
+        console.error('Error al obtener categoría:', err);
+        setError(true);
+      }
     };
-    getResources();
-  }, []);
+
+    const fetchResources = async () => {
+      try {
+        const resourcesData = await getResourcesByHandle(handle);
+        console.log("Datos obtenidos de getResourcesByHandle:", resourcesData);
+        setResources(resourcesData);
+      } catch (err) {
+        console.error('Error al obtener recursos:', err);
+        setError(true);
+      }
+    };
+
+    if (handle) {
+      fetchData();
+      fetchResources();
+    }
+  }, [handle]);
 
   const scrollLeft = () => {
     scrollRef.current.scrollBy({
@@ -44,8 +62,8 @@ const Category = () => {
   return (
     <div className='w-full flex flex-col items-center space-y-8 px-4 lg:px-8 my-10'>
       <div className='w-full'>
-        {categorie.length > 0 ? (
-          <Carousel isCarousel={false} title={categorie[0].title} image={categorie[0].featuredImage.secure_url} />
+        {category ? (
+          <Carousel isCarousel={false} title={category?.title || 'Categoría sin título'} image={category?.featuredImage?.secure_url || ''} />
         ) : (
           <p className='text-center text-gray-500'>Cargando categoría...</p>
         )}
