@@ -22,8 +22,15 @@ export class ResourcesController {
   }
 
   @Public()
+  @Get('by-user/:userId')
+  findAllByUser(@Param('userId') userId: string, @Query() paginationDto: PaginationDto) {
+    return this.resourcesService.findAllByUser(userId, paginationDto);
+  }
+
+  @Public()
   @Get(':handle')
   findOne(@Param('handle') handle: string) {
+    console.log(handle);
     return this.resourcesService.findOne(handle);
   }
 

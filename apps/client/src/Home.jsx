@@ -41,10 +41,6 @@ const Home = () => {
     });
   };
 
-  useEffect(() => {
-    fetchData({path:"/categorias"}).then(setCategories);
-  }, []);
-
   return (
     <div className='w-full flex flex-col items-center space-y-8 px-4 lg:px-8 my-10'>
       <div className='w-full mt-4 flex justify-center'>

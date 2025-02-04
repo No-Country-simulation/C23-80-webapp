@@ -41,11 +41,32 @@ export class ResourcesService {
         totalPages
       }
     };
+  };
+
+  async findAllByUser(userId: string, paginationDto: PaginationDto) {
+    const { page, limit } = paginationDto;
+    const totalRecords = await this.db.skill.count({where: {userId, available: true}});
+    const totalPages = Math.ceil(totalRecords / limit);
+    return {
+      data: await this.db.skill.findMany({
+        where: {userId},
+        include: {
+          categories: {select: {id: true, title: true}}
+        },
+        take: limit,
+        skip: (page - 1) * limit
+      }),
+      meta: {
+        page,
+        totalRecords,
+        totalPages
+      }
+    }
   }
 
   async findOne(handle: string) {
     const resource = await this.db.skill.findUnique({where: {handle, available: true}});
-
+    console.log(resource);
     if (!resource) {
       throw new NotFoundException(`El recurso con la url ${handle} no existe`);
     }

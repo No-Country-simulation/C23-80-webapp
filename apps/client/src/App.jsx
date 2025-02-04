@@ -7,6 +7,8 @@ import Explore from './Explore'
 import Categories from './Categories'
 import Login from './Login'
 import Category from './components/Category'
+import User from './user'
+import UserTable from './components/user-table'
 
 function App() {
 
@@ -19,7 +21,9 @@ function App() {
         <Route path='/explorar' element={<Explore />} />
         <Route path='/categorias' element={<Categories />} />
         <Route path='/sobre-nosotros' element={<AboutUs />} />
-        <Route path='/auth:user_id' element={<></>} />
+        <Route path='/auth/:user_id' element={<User/>} >
+          <Route path='/auth/:user_id/:path' element={<UserTable/>} />
+        </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/registro' element={<></>} />
         <Route path='/category' element={<Category />} />

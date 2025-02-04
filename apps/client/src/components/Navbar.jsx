@@ -44,7 +44,7 @@ const Navbar = () => {
           <Link to='/sobre-nosotros' style={{ color: 'var(--purple)' }} className='text-lg lg:text-base hover:underline' onClick={() => setIsMenuOpen(false)}>Sobre nosotros</Link>
 
           {user ? (
-            <a href='/login' className='text-white px-4 py-2 rounded-lg hover:bg-[var(--purple-hover)] bg-[var(--purple)] transform transition-transform active:scale-90' onClick={() => setIsMenuOpen(false)}>
+            <a href={`/auth/${user.id}`} className='text-white px-4 py-2 rounded-lg hover:bg-[var(--purple-hover)] bg-[var(--purple)] transform transition-transform active:scale-90' onClick={() => setIsMenuOpen(false)}>
               {user.name}
             </a>
           ) : (

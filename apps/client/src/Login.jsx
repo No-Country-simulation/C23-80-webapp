@@ -25,7 +25,6 @@ const Login = () => {
     startTransition(async() => {
       try {
         const response = await fetchData({path: '/auth/login', method: 'POST', body: input});
-        console.log(response);
         if(response?.access_token) {
           localStorage.setItem('access_token', response.access_token);
           setToken(response.access_token);
