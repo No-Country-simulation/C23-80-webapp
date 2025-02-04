@@ -3,7 +3,7 @@ import NewsCard from './NewsCard'
 import Carousel from './Carousel';
 import SearchI from './Search';
 import { useEffect, useRef, useState } from 'react';
-import { fetchCategories, getResourcesByHandle } from '../Apis';
+import { fetchCategories, fetchResourcesByHandle } from '../Apis';
 import { useParams } from 'react-router';
 
 const Category = () => {
@@ -14,7 +14,6 @@ const Category = () => {
   const { handle } = useParams();  
 
   useEffect(() => {
-    console.log("Valor de handle en useEffect:", handle);
     const fetchData = async () => {
       try {
         const categories = await fetchCategories();
@@ -28,10 +27,9 @@ const Category = () => {
       }
     };
 
-    const fetchResources = async () => {
+    const getResources = async () => {
       try {
-        const resourcesData = await getResourcesByHandle(handle);
-        console.log("Datos obtenidos de getResourcesByHandle:", resourcesData);
+        const resourcesData = await fetchResourcesByHandle(handle);
         setResources(resourcesData);
       } catch (err) {
         console.error('Error al obtener recursos:', err);
@@ -41,7 +39,7 @@ const Category = () => {
 
     if (handle) {
       fetchData();
-      fetchResources();
+      getResources();
     }
   }, [handle]);
 
@@ -80,15 +78,15 @@ const Category = () => {
           <ChevronLeft className='h-6 w-6 text-[var(--purple)]'/>
         </button>
         <div ref={scrollRef} className='flex overflow-hidden space-x-4 py-2'>
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
+          {resources.length > 0 ? (
+            resources.map((resource) => 
+              {
+                const dataObject = {image: resource.featuredImage.secure_url, title: resource.title}
+                return <NewsCard key={resource.id} data={dataObject} />
+              })
+          ) : (
+            <p className='text-center text-gray-500'>No hay recursos disponibles...</p>
+          )}
         </div>
         <button
           onClick={scrollRight}
