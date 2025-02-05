@@ -27,6 +27,7 @@ function App() {
         <Route path='/password-reset' element={<PasswordReset />} />
         <Route path='/categoria/:handle' element={<Category />} />
         <Route path='/resource' element={<Resource />} />
+        <Route path="*" element={<Home />} /> 
       </Routes>
     </BrowserRouter>
   )

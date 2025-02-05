@@ -1,15 +1,20 @@
 import { useLocation, useNavigate } from 'react-router';
 import SimpleCard from './components/SimpleCard';
 import { Globe } from 'lucide-react';
+import { useEffect } from 'react';
 
 const Resource = () => {
   const navigate = useNavigate();
   const { state: data } = useLocation();
 
-  if (!data) {
-    return navigate('/');
-  }
+  useEffect(() => {
+    if (!data) {
+      navigate('/');
+    }
+  }, [data, navigate]);
 
+  if (!data) return null;
+  
   return(
     <div className='flex flex-col-reverse md:flex-row content-center items-center justify-between md:items-center gap-8 p-4 max-w-[1200px] mx-auto md:min-h-[calc(100vh-68px)]'>
       <SimpleCard data={data} />

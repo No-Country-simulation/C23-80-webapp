@@ -4,7 +4,7 @@ import Carousel from './Carousel';
 import SearchI from './Search';
 import { useEffect, useRef, useState } from 'react';
 import { fetchCategories, fetchResourcesByHandle } from '../Apis';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 const Category = () => {
   const scrollRef = useRef(null);
@@ -13,6 +13,7 @@ const Category = () => {
   const { handle } = useParams();
   const [isCategoryLoading, setIsCategoryLoading] = useState(true);
   const [isResourcesLoading, setIsResourcesLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +46,12 @@ const Category = () => {
       getResources();
     }
   }, [handle]);
+
+  useEffect(() => {
+    if (!isCategoryLoading && category === null) {
+      navigate('/'); 
+    }
+  }, [isCategoryLoading, category, navigate]);
 
   const scrollLeft = () => {
     scrollRef.current.scrollBy({
