@@ -21,6 +21,11 @@ export class ResourcesController {
     return this.resourcesService.findAll(paginationDto);
   }
 
+  @Get('basic')
+  findAllBasic() {
+    return this.resourcesService.findAllBasic();
+  }
+
   @Public()
   @Get('by-user/:userId')
   findAllByUser(@Param('userId') userId: string, @Query() paginationDto: PaginationDto) {
@@ -57,5 +62,10 @@ export class ResourcesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.resourcesService.remove(id);
+  }
+
+  @Delete('soft-delete/:id')
+  softDelete(@Param('id') id: string) {
+    return this.resourcesService.softDelete(id);
   }
 }

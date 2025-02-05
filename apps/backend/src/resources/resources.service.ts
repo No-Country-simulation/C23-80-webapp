@@ -26,6 +26,13 @@ export class ResourcesService {
     })
   }
 
+  findAllBasic() {
+    return this.db.skill.findMany({
+      where: {available: true},
+      select: {id: true, title: true}
+    })
+  }
+
   async findAll(paginationDto: PaginationDto) {
     const { page, limit } = paginationDto;
     const totalRercords = await this.db.skill.count({where: {available: true}});
@@ -105,7 +112,7 @@ export class ResourcesService {
     return await this.db.skill.findUnique({where: {id},include: {categories: {select: {id: true, title: true}}}});
   }
 
-  update(id: string, updateResourceDto: UpdateResourceDto) {
+  async update(id: string, updateResourceDto: UpdateResourceDto) {
     const { title, featuredImage, seo, categories } = updateResourceDto;
     const slug = createSlug(title);
     const imageObj = {...(featuredImage && featuredImage)};
@@ -113,21 +120,27 @@ export class ResourcesService {
       ...seo,
       image: seo.image && {...seo.image}
     });
-
+    
+    const deleteCatIds = await this.db.skill.findUnique({where: {id}}).categories({
+      where: {id: {notIn: categories}},
+      select: {id: true}
+    });
+    
     return this.db.skill.update({
       where: { id },
       data: {
         ...updateResourceDto,
         handle: slug,
-        ...(featuredImage.secure_url && {featuredImage: imageObj}),
+        ...(featuredImage?.secure_url && {featuredImage: imageObj}),
         seo: seoObj,
-        ...(categories && {
+        ...(categories?.length && {
           categories: {
-            deleteMany: {},
+            disconnect: deleteCatIds.map((id) => ({ id: id.id })),
             connect: categories.map((id) => ({ id }))
           }
         })
-      }
+      },
+      include: {categories: {select: {id: true, title: true}}}
     })
   }
 
@@ -153,5 +166,9 @@ export class ResourcesService {
         available: false
       }
     });
+  }
+
+  softDelete(id: string) {
+    return this.db.skill.delete({where: {id}});
   }
 }

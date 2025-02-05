@@ -26,6 +26,12 @@ export class CategoriasController {
     return this.categoriasService.findOne(handle);
   }
 
+  @Public()
+  @Get('by-id/:id')
+  findOneById(@Param('id') id: string) {
+    return this.categoriasService.findOneById(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCategoriaDto: UpdateCategoriaDto) {
     return this.categoriasService.update(id, updateCategoriaDto);
@@ -34,5 +40,10 @@ export class CategoriasController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.categoriasService.remove(id);
+  }
+
+  @Delete('soft-delete/:id')
+  softDelete(@Param('id') id: string) {
+    return this.categoriasService.softDelete(id);
   }
 }

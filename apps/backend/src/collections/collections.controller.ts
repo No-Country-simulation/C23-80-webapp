@@ -26,6 +26,12 @@ export class CollectionsController {
     return this.collectionsService.findOne(handle);
   }
 
+  @Public()
+  @Get('by-id/:id')
+  findOneById(@Param('id') id: string) {
+    return this.collectionsService.findOneById(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCollectionDto: UpdateCollectionDto) {
     return this.collectionsService.update(id, updateCollectionDto);
@@ -34,5 +40,10 @@ export class CollectionsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.collectionsService.remove(id);
+  }
+
+  @Delete('soft-delete/:id')
+  softDelete(@Param('id') id: string) {
+    return this.collectionsService.softDelete(id);
   }
 }

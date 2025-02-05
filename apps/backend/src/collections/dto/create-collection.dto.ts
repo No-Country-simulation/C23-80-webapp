@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsOptional, IsString, ValidateNested } from "class-validator";
 import { ImageDto } from "src/common/dto";
 
 export class CreateCollectionDto {
@@ -9,6 +9,10 @@ export class CreateCollectionDto {
     @IsOptional()
     @IsString()
     description?: string;
+
+    @IsArray()
+    @IsString({ each: true })
+    skills: string[];
 
     @IsOptional()
     @ValidateNested()
