@@ -2,13 +2,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-<<<<<<< HEAD
-const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
-  const navigate = useNavigate();
-=======
 const Carousel = ({ isCarousel = true, data = [], title = '', image = '', carrouselItems }) => {
->>>>>>> origin/backend
   const [currentImage, setCurrentImage] = useState(0);
+  const navigate = useNavigate();
   const slides = isCarousel && data.length > 0 
   ? data 
   : [{ title, featuredImage: { secure_url: image } }];
@@ -21,7 +17,6 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = '', carrou
   const nextSlide = () => {
     setCurrentImage((prev) => (prev === carrouselItems.length - 1 ? 0 : prev + 1));
   }
-<<<<<<< HEAD
 
 
   const handleClickCarousel = () => {
@@ -30,9 +25,7 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = '', carrou
     }
   }
 
-=======
   
->>>>>>> origin/backend
   return(
     <div className='relative w-full max-w-[1200px] mx-auto'>
       {slides.length > 0 && slides[currentImage]?.featuredImage ? (

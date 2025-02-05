@@ -1,23 +1,12 @@
 import { Star, Bookmark } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
-<<<<<<< HEAD
 const NewsCard = ({ data }) => {
   const navigate = useNavigate();
   const handleResource = data.handle;
 
   const handleClic = () =>{
     navigate(`/recurso/${handleResource}`, { state: data });
-=======
-/**
- * NewsCard component
- * @description Componente que muestra una tarjeta de noticia
- * @param {object} props - Propiedades del componente
- * @returns JSX.Element
- */
-const NewsCard = () => {
-  const handleClic = () =>{    
->>>>>>> origin/backend
   }
 
   return(
@@ -39,7 +28,7 @@ const NewsCard = () => {
       </div>
       <div className='flex items-center justify-between p-4 bg-purple-200'>
         <span className='text-lg text-gray-800 font-semibold'>{data.title}</span>
-        <button onClick={handleClic} className='text-white text-sm rounded-md px-4 py-2 bg-[var(--purple10)] cursor-pointer active:scale-90 transition-transform duration-300' onClick={handleClic}>
+        <button onClick={handleClic} className='text-white text-sm rounded-md px-4 py-2 bg-[var(--purple10)] cursor-pointer active:scale-90 transition-transform duration-300' >
           Ver más
         </button>
       </div>

@@ -12,16 +12,7 @@ const Login = () => {
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
-<<<<<<< HEAD
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-=======
   const [isPending, startTransition] = useTransition();
->>>>>>> origin/backend
 
   const { setToken, token } = useAuth();
 
@@ -34,7 +25,7 @@ const Login = () => {
     startTransition(async() => {
       try {
         const response = await fetchData({path: '/auth/login', method: 'POST', body: input});
-        console.log(response);
+        
         if(response?.access_token) {
           localStorage.setItem('access_token', response.access_token);
           setToken(response.access_token);
@@ -67,11 +58,7 @@ const Login = () => {
           </div>
 
           <h2 style={{font: 'var(--h2)'}} className='text-3xl font-bold mb-8 text-center'>Iniciar sesión</h2>
-<<<<<<< HEAD
-          <form onSubmit={handleSubmit}>
-=======
           <form onSubmit={onSubmit}>
->>>>>>> origin/backend
             <label style={{font: 'var(--h3)'}} className='block text-sm font-medium mb-2' htmlFor='email'>
               Correo electrónico
             </label>
@@ -79,18 +66,10 @@ const Login = () => {
               id='email'
               value={input.email}
               type='email'
-<<<<<<< HEAD
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className='w-full p-3 border border-gray-300 rounded-lg mb-8 focus:outline-none focus:ring-2 focus:ring-[var(--purple)]'
-              placeholder='Correo electrónico'
-              required
-=======
               onChange={(e) => setInput({...input, email: e.target.value})}
               className='w-full p-3 border border-gray-300 rounded-lg mb-8 focus:outline-none focus:ring-2 focus:ring-[var(--purple)]'
               placeholder='Correo electrónico'
               disabled={isPending}
->>>>>>> origin/backend
             />
 
             <label style={{font: 'var(--h3)'}} className='block text-sm font-medium mb-2' htmlFor='password'>
@@ -100,19 +79,11 @@ const Login = () => {
               <input
                 id='password'
                 type={showPassword ? 'text' : 'password'}
-<<<<<<< HEAD
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--purple)] pr-10'
-                placeholder='Contraseña'
-                required
-=======
                 value={input.password}
                 onChange={(e) => setInput({...input, password: e.target.value})}
                 className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--purple)] pr-10'
                 placeholder='Contraseña'
                 disabled={isPending}
->>>>>>> origin/backend
               />
               <button
                 type='button'

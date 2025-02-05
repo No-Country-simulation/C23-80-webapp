@@ -38,19 +38,6 @@ const Navbar = () => {
               </div>
             )
           }
-<<<<<<< HEAD
-          <Link to='/' style={{color: 'var(--purple)'}} className='text-lg lg:text-base hover:underline' onClick={() => setIsMenuOpen(false)}>Home</Link>
-          <Link to='/categorias' style={{color: 'var(--purple)'}} className='text-lg lg:text-base hover:underline' onClick={() => setIsMenuOpen(false)}>Categorías</Link>
-          <Link to='/explorar' style={{color: 'var(--purple)'}} className='text-lg lg:text-base hover:underline' onClick={() => setIsMenuOpen(false)}>Explorar</Link>
-          <Link to='/sobre-nosotros' style={{color: 'var(--purple)'}} className='text-lg lg:text-base hover:underline' onClick={() => setIsMenuOpen(false)}>Sobre nosotros</Link>
-        
-          <a href='/login' className='text-white px-4 py-2 rounded-lg hover:bg-[var(--purple-hover)] bg-[var(--purple)] transform transition-transform active:scale-90' onClick={() => setIsMenuOpen(false)}>
-            Iniciar sesión
-          </a>
-          <a href='/signup' className='text-white px-4 py-2 rounded-lg hover:bg-[var(--blue-hover)] bg-[var(--blue)] transform transition-transform active:scale-90' onClick={() => setIsMenuOpen(false)}>
-            Regístrate
-          </a>
-=======
           <Link to='/' style={{ color: 'var(--purple)' }} className='text-lg lg:text-base hover:underline' onClick={() => setIsMenuOpen(false)}>Home</Link>
           <Link to='/categorias' style={{ color: 'var(--purple)' }} className='text-lg lg:text-base hover:underline' onClick={() => setIsMenuOpen(false)}>Categorías</Link>
           <Link to='/explorar' style={{ color: 'var(--purple)' }} className='text-lg lg:text-base hover:underline' onClick={() => setIsMenuOpen(false)}>Explorar</Link>
@@ -80,7 +67,6 @@ const Navbar = () => {
               Regístrate
             </a>
           )}
->>>>>>> origin/backend
         </div>
       </div>
     </nav>
