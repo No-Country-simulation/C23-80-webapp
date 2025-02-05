@@ -26,7 +26,7 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/password-reset' element={<PasswordReset />} />
         <Route path='/categoria/:handle' element={<Category />} />
-        <Route path='/resource' element={<Resource />} />
+        <Route path='/recurso/:handle' element={<Resource />} />
         <Route path="*" element={<Home />} /> 
       </Routes>
     </BrowserRouter>
