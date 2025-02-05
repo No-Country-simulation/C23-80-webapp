@@ -1,6 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import { users as usrs } from "./def-users";
 import { categories, categories as cats, resources as resours } from "./initial-data";
+import * as bcrypt from 'bcrypt';
+
+const hashPassword = async (password: string): Promise<string> => {
+  return await bcrypt.hash(password, 10);
+};
 
 const prisma = new PrismaClient();
 
@@ -8,17 +13,29 @@ async function main() {
     /* const [
         //categories,
         resources, 
-        //users, 
+        users, 
         //collections
     ] = await prisma.$transaction(
         async (prisma) => {
-            const users = await prisma.user.createMany({ data: usrs.map(user => ({
-                ...user,
-                role: user.role as "ADMIN" | "USER",
-                profile: {
-                    create: {}
-                }
-            })) });
+            const users = {users: {count: 0}};
+            for(const user of usrs) {
+                await prisma.user.upsert({
+                    where: { email: user.email },
+                    update: {
+                        ...user,
+                        password: await hashPassword(user.password),
+                        role: user.role as "ADMIN" | "USER"
+                    },
+                    create: {
+                        ...user,
+                        password: await hashPassword(user.password),
+                        role: user.role as "ADMIN" | "USER",
+                        profile: {
+                            create: {}
+                        }
+                    }
+                })
+            }
             //const categories = await prisma.skillCategory.createMany({
             //    data: cats.map(cat => ({
             //        ...cat,
@@ -52,7 +69,7 @@ async function main() {
             return [
                 //categories,
                 resources, 
-                //users, 
+                users, 
                 //collections
             ]
         },

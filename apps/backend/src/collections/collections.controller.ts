@@ -3,6 +3,7 @@ import { CollectionsService } from './collections.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { UpdateCollectionDto } from './dto/update-collection.dto';
 import { PaginationDto } from 'src/common/dto';
+import { Public } from 'src/auth/auth.guard';
 
 @Controller('collections')
 export class CollectionsController {
@@ -13,14 +14,22 @@ export class CollectionsController {
     return this.collectionsService.create(createCollectionDto);
   }
 
+  @Public()
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.collectionsService.findAll(paginationDto);
   }
 
+  @Public()
   @Get(':handle')
   findOne(@Param('handle') handle: string) {
     return this.collectionsService.findOne(handle);
+  }
+
+  @Public()
+  @Get('by-id/:id')
+  findOneById(@Param('id') id: string) {
+    return this.collectionsService.findOneById(id);
   }
 
   @Patch(':id')
@@ -31,5 +40,10 @@ export class CollectionsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.collectionsService.remove(id);
+  }
+
+  @Delete('soft-delete/:id')
+  softDelete(@Param('id') id: string) {
+    return this.collectionsService.softDelete(id);
   }
 }

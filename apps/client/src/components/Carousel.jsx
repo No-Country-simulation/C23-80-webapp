@@ -2,8 +2,12 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+<<<<<<< HEAD
 const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
   const navigate = useNavigate();
+=======
+const Carousel = ({ isCarousel = true, data = [], title = '', image = '', carrouselItems }) => {
+>>>>>>> origin/backend
   const [currentImage, setCurrentImage] = useState(0);
   const slides = isCarousel && data.length > 0 
   ? data 
@@ -11,12 +15,13 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
   const handleCategory = slides[currentImage].handle;
   
   const prevSlide = () => {
-    setCurrentImage((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
+    setCurrentImage((prev) => (prev === 0 ? carrouselItems.length - 1 : prev - 1))
   }
 
   const nextSlide = () => {
-    setCurrentImage((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setCurrentImage((prev) => (prev === carrouselItems.length - 1 ? 0 : prev + 1));
   }
+<<<<<<< HEAD
 
 
   const handleClickCarousel = () => {
@@ -25,6 +30,9 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
     }
   }
 
+=======
+  
+>>>>>>> origin/backend
   return(
     <div className='relative w-full max-w-[1200px] mx-auto'>
       {slides.length > 0 && slides[currentImage]?.featuredImage ? (
@@ -61,7 +69,7 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
         )
       }
     </div>
-  )
+    )
 }
 
 export default Carousel;

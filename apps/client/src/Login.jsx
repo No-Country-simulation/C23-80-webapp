@@ -1,18 +1,53 @@
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import coverLogin from './assets/images/coverLogin.webp';
 import juniorLandiaLogo from './assets/images/juniolandia-logo.svg';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, TriangleAlert } from 'lucide-react';
+import { fetchData } from './utils/api';
+import { Navigate, useNavigate } from 'react-router';
+import { useAuth } from './provider';
 
 const Login = () => {
+  const [input, setInput] = useState({
+    email: '',
+    password: ''
+  });
   const [showPassword, setShowPassword] = useState(false);
+<<<<<<< HEAD
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+=======
+  const [isPending, startTransition] = useTransition();
+>>>>>>> origin/backend
 
-  return(
+  const { setToken, token } = useAuth();
+
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setError(null);
+    startTransition(async() => {
+      try {
+        const response = await fetchData({path: '/auth/login', method: 'POST', body: input});
+        console.log(response);
+        if(response?.access_token) {
+          localStorage.setItem('access_token', response.access_token);
+          setToken(response.access_token);
+          navigate('/');
+        }
+        setError("Correo electrónico o contraseña incorrectos");
+      } catch (error) {
+        setError("Correo electrónico o contraseña incorrectos");
+      }
+    })
+  }
+
+  return token? <Navigate to={'/'} />: (
     <div className='flex flex-col h-[calc(100vh-68px)] lg:flex-row'>
       <div
         className='relative w-full lg:w-1/2 h-48 lg:h-full bg-cover bg-center'
@@ -32,18 +67,30 @@ const Login = () => {
           </div>
 
           <h2 style={{font: 'var(--h2)'}} className='text-3xl font-bold mb-8 text-center'>Iniciar sesión</h2>
+<<<<<<< HEAD
           <form onSubmit={handleSubmit}>
+=======
+          <form onSubmit={onSubmit}>
+>>>>>>> origin/backend
             <label style={{font: 'var(--h3)'}} className='block text-sm font-medium mb-2' htmlFor='email'>
               Correo electrónico
             </label>
             <input
               id='email'
+              value={input.email}
               type='email'
+<<<<<<< HEAD
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className='w-full p-3 border border-gray-300 rounded-lg mb-8 focus:outline-none focus:ring-2 focus:ring-[var(--purple)]'
               placeholder='Correo electrónico'
               required
+=======
+              onChange={(e) => setInput({...input, email: e.target.value})}
+              className='w-full p-3 border border-gray-300 rounded-lg mb-8 focus:outline-none focus:ring-2 focus:ring-[var(--purple)]'
+              placeholder='Correo electrónico'
+              disabled={isPending}
+>>>>>>> origin/backend
             />
 
             <label style={{font: 'var(--h3)'}} className='block text-sm font-medium mb-2' htmlFor='password'>
@@ -53,11 +100,19 @@ const Login = () => {
               <input
                 id='password'
                 type={showPassword ? 'text' : 'password'}
+<<<<<<< HEAD
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--purple)] pr-10'
                 placeholder='Contraseña'
                 required
+=======
+                value={input.password}
+                onChange={(e) => setInput({...input, password: e.target.value})}
+                className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--purple)] pr-10'
+                placeholder='Contraseña'
+                disabled={isPending}
+>>>>>>> origin/backend
               />
               <button
                 type='button'
@@ -76,9 +131,15 @@ const Login = () => {
               ¿Olvidaste tu contraseña?
             </a>
 
+            {error && <p className='text-red-500 text-xs mb-6'>
+              <TriangleAlert size={16} className='inline-block mr-2' />
+              {error}
+              </p>}
+
             <button
               type='submit'
               className='w-full bg-[var(--purple)] text-white py-3 rounded-lg font-medium hover:bg-[var(--purple-hover)] cursor-pointer'
+              disabled={isPending}
             >
               Iniciar sesión
             </button>

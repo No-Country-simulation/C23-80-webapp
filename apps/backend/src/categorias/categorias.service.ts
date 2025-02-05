@@ -17,15 +17,15 @@ export class CategoriasService {
       data: {
         ...createCategoriaDto,
         handle: slug,
-        featuredImage: imageObj
+        ...(featuredImage?.secure_url && {featuredImage: imageObj})
       }
     })
   }
 
   async findAll(paginationDto: PaginationDto) {
     const { page, limit } = paginationDto;
-    const totalRercords = await this.db.skillCategory.count({where: {available: true}});
-    const totalPages = Math.ceil(totalRercords / limit);
+    const totalRecords = await this.db.skillCategory.count({where: {available: true}});
+    const totalPages = Math.ceil(totalRecords / limit);
 
     return {
       data: await this.db.skillCategory.findMany({
@@ -34,7 +34,7 @@ export class CategoriasService {
       }),
       meta: {
         page,
-        totalRercords,
+        totalRecords,
         totalPages,
       }
     };
@@ -42,12 +42,24 @@ export class CategoriasService {
 
   async findOne(handle: string) {
     const category = await  this.db.skillCategory.findUnique({
-      where: { handle, available: true }
+      where: { handle, available: true },
+      include: {
+        skills: {
+          where: { available: true },
+          include: {
+            reviews: true
+          }
+        }
+      }
     });
     if(!category) {
       throw new NotFoundException(`La categoria con la url ${handle} no existe`);
     }
     return category;
+  }
+
+  findOneById(id: string) {
+    return this.db.skillCategory.findUnique({where: { id, available: true } });
   }
 
   update(id: string, updateCategoriaDto: UpdateCategoriaDto) {
@@ -82,5 +94,9 @@ export class CategoriasService {
         available: false
       }
     });
+  };
+
+  softDelete(id: string) {
+    return this.db.skillCategory.delete({where: { id }});
   }
 }

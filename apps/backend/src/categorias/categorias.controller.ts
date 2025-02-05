@@ -3,6 +3,7 @@ import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { PaginationDto } from 'src/common/dto';
+import { Public } from 'src/auth/auth.guard';
 
 @Controller('categorias')
 export class CategoriasController {
@@ -13,14 +14,22 @@ export class CategoriasController {
     return this.categoriasService.create(createCategoriaDto);
   }
 
+  @Public()
   @Get()
   findAll( @Query() paginationDto: PaginationDto) {
     return this.categoriasService.findAll(paginationDto);
   }
 
+  @Public()
   @Get(':handle')
   findOne(@Param('handle') handle: string) {
     return this.categoriasService.findOne(handle);
+  }
+
+  @Public()
+  @Get('by-id/:id')
+  findOneById(@Param('id') id: string) {
+    return this.categoriasService.findOneById(id);
   }
 
   @Patch(':id')
@@ -31,5 +40,10 @@ export class CategoriasController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.categoriasService.remove(id);
+  }
+
+  @Delete('soft-delete/:id')
+  softDelete(@Param('id') id: string) {
+    return this.categoriasService.softDelete(id);
   }
 }

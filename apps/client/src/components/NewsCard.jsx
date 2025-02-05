@@ -1,12 +1,23 @@
 import { Star, Bookmark } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
+<<<<<<< HEAD
 const NewsCard = ({ data }) => {
   const navigate = useNavigate();
   const handleResource = data.handle;
 
   const handleClic = () =>{
     navigate(`/recurso/${handleResource}`, { state: data });
+=======
+/**
+ * NewsCard component
+ * @description Componente que muestra una tarjeta de noticia
+ * @param {object} props - Propiedades del componente
+ * @returns JSX.Element
+ */
+const NewsCard = () => {
+  const handleClic = () =>{    
+>>>>>>> origin/backend
   }
 
   return(

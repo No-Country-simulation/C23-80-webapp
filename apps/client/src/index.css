@@ -30,3 +30,15 @@
 body{
   font: var(--text);
 }
+
+.btn {
+  @apply bg-[var(--purple)] text-white px-3 py-1;
+}
+
+.btn:hover {
+  @apply bg-[var(--purple-hover)];
+}
+
+.destructive {
+  @apply bg-[var(--negative)] text-white px-3 py-1;
+}
