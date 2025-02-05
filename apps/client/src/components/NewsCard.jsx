@@ -1,7 +1,11 @@
-import {Star, Bookmark} from 'lucide-react'
+import { Star, Bookmark } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
-const NewsCard = ({ data }) => { 
-  const handleClic = () =>{    
+const NewsCard = ({ data }) => {
+  const navigate = useNavigate();
+
+  const handleClic = () =>{
+    navigate('/resource', { state: data });
   }
 
   return(
@@ -23,7 +27,7 @@ const NewsCard = ({ data }) => {
       </div>
       <div className='flex items-center justify-between p-4 bg-purple-200'>
         <span className='text-lg text-gray-800 font-semibold'>{data.title}</span>
-        <button className='text-white text-sm rounded-md px-4 py-2 bg-[var(--purple10)] cursor-pointer active:scale-90 transition-transform duration-300' onClick={handleClic}>
+        <button onClick={handleClic} className='text-white text-sm rounded-md px-4 py-2 bg-[var(--purple10)] cursor-pointer active:scale-90 transition-transform duration-300' onClick={handleClic}>
           Ver más
         </button>
       </div>
