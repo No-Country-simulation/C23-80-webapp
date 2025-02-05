@@ -5,6 +5,12 @@ import { Eye, EyeOff } from 'lucide-react';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return(
     <div className='flex flex-col h-[calc(100vh-68px)] lg:flex-row'>
@@ -26,15 +32,18 @@ const Signup = () => {
           </div>
 
           <h2 style={{font: 'var(--h2)'}} className='text-3xl font-bold mb-8 text-center'>Registrarse</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <label style={{font: 'var(--h3)'}} className='block text-sm font-medium mb-2' htmlFor='email'>
               Correo electrónico
             </label>
             <input
               id='email'
               type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className='w-full p-3 border border-gray-300 rounded-lg mb-8 focus:outline-none focus:ring-2 focus:ring-[var(--purple)]'
               placeholder='Correo electrónico'
+              required
             />
 
             <label style={{font: 'var(--h3)'}} className='block text-sm font-medium mb-2' htmlFor='password'>
@@ -44,8 +53,11 @@ const Signup = () => {
               <input
                 id='password'
                 type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--purple)] pr-10'
                 placeholder='Contraseña'
+                required
               />
               <button
                 type='button'
