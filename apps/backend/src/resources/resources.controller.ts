@@ -39,7 +39,7 @@ export class ResourcesController {
     return this.resourcesService.findOne(handle);
   }
 
-  @Get('by-id:id')
+  @Get('by-id/:id')
   findOneById(@Param('id') id: string) {
     return this.resourcesService.findOneById(id);
   }

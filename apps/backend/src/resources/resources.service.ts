@@ -32,6 +32,9 @@ export class ResourcesService {
     const totalPages = Math.ceil(totalRercords / limit);
     return {
       data: await this.db.skill.findMany({
+        include: {
+          categories: {select: {id: true, title: true}}
+        },
         take: limit,
         skip: (page - 1) * limit
       }),
@@ -99,7 +102,7 @@ export class ResourcesService {
   }
 
   async findOneById(id: string) {
-    return await this.db.skill.findUnique({where: {id}});
+    return await this.db.skill.findUnique({where: {id},include: {categories: {select: {id: true, title: true}}}});
   }
 
   update(id: string, updateResourceDto: UpdateResourceDto) {

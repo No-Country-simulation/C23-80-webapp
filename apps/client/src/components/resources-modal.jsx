@@ -9,21 +9,25 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
     const [imageObj, setImageObj] = useState(null);
     const [isPending, startTransition] = useTransition();
     const [dragging, setDragging] = useState(false);
-    console.log("resources", resource);
+    const [categories, setCategories] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+
     const onSubmit = (e) => {
         e.preventDefault();
+        const formData = new FormData(e.target);
         startTransition(async () => {
             try {
-                const data = await fetchData({
+                const respData = await fetchData({
                     path: `/resources/${resourceId}`,
-                    method: "POST",
+                    method: "PATCH",
                     body: {
-                        title: "",
-                        description: "",
-                        url: "",
+                        title: formData.get("title"),
+                        description: formData.get("description"),
+                        url: formData.get("url"),
                         featuredImage: imageObj
                     }
                 });
+                setEdit({ show: false, id: null });
             } catch (error) {
                 console.error(error);
                 setError("Error al guardar los cambios");
@@ -37,7 +41,7 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
         } else {
             const folder = "resources";
             const data = await uploadImage(file, folder);
-            if(data) {
+            if (data) {
                 setImageObj({
                     public_id: data.public_id,
                     secure_url: data.secure_url,
@@ -57,6 +61,16 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
             uploadHandler(file);
         })
     }
+
+    const handleCheckboxChange = (e) => {
+        const { value, checked } = e.target;
+
+        if (checked) {
+            setSelectedItems([...selectedItems, value]);
+        } else {
+            setSelectedItems(selectedItems.filter((item) => item !== value));
+        }
+    };
 
     const handleDrop = (e) => {
         e.preventDefault();
@@ -85,8 +99,15 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
             fetchData({ path: `/resources/by-id/${resourceId}` }).then((data) => {
                 setResource(data);
                 setImageObj(data?.featuredImage);
+                setSelectedItems(data.categories.map((category) => category.id))
             });
         }
+    }, []);
+
+    useEffect(() => {
+        fetchData({ path: "/categorias" }).then(({ data, meta }) => {
+            setCategories(data.map((category) => ({ id: category.id, title: category.title })));
+        });
     }, []);
 
     return (
@@ -95,9 +116,32 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
                 <div className="flex flex-col gap-4">
                     <h3 className="text-xl font-bold">Editar Recurso</h3>
                     <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+                        <div className="block">
+                            <span className="text-slate-500">Categorías:</span>
+                            <div className="flex flex-wrap gap-y-2 gap-x-4 rounded border border-slate-300 mt-1.5 p-2 select-none">
+                                {categories.map((category) => {
+                                    return (
+                                        <label key={category.id} htmlFor={category.id} className="flex items-center gap-2">
+                                            <input
+                                                type="checkbox"
+                                                id={category.id}
+                                                name="categories"
+                                                value={category.id}
+                                                checked={selectedItems.includes(category.id)}
+                                                onChange={handleCheckboxChange}
+                                                disabled={isPending}
+                                            />
+                                            <span className="font-semibold text-slate-500">{category.title}</span>
+                                        </label>
+                                    )
+                                })}
+                            </div>
+                        </div>
                         <label className="block">
                             <span className="text-slate-500">Titulo:</span>
                             <input
+                                name="title"
+                                defaultValue={resource?.title}
                                 className="form-input mt-1.5 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-[var(--purple)]"
                                 placeholder="Titulo"
                                 type="text"
@@ -106,6 +150,7 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
                         </label>
                         <label className="block">
                             <textarea
+                                name="description"
                                 rows="3"
                                 placeholder="Descripción"
                                 value={resource?.description}
@@ -116,6 +161,8 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
                         <label className="block">
                             <span className="text-slate-500">Url del recurso:</span>
                             <input
+                                name="url"
+                                defaultValue={resource?.url}
                                 className="form-input mt-1.5 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-[var(--purple)]"
                                 placeholder="https://recurso.com"
                                 type="text"
@@ -136,7 +183,7 @@ const ResourcesCrateModal = ({ isOpen, setResources, resourceId, setEdit }) => {
                                                 e.stopPropagation();
                                             }}
                                         >
-                                            <img src={imageObj?.secure_url??"/no-image-available.png"} alt="Resource image" className="w-auto h-full object-cover rounded-lg" />
+                                            <img src={imageObj?.secure_url ?? "/no-image-available.png"} alt="Resource image" className="w-auto h-full object-cover rounded-lg" />
                                             <button type="button" className="absolute top-1 right-1 p-1 aspect-square text-[var(--negative)] bg-white rounded-sm border border-slate-300"
                                                 onClick={() => setImageObj(null)}
                                             >

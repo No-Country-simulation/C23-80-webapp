@@ -9,6 +9,7 @@ import Login from './Login'
 import Category from './components/Category'
 import User from './user'
 import UserTable from './components/user-table'
+import UserIndex from './components/UserIndex'
 
 function App() {
 
@@ -22,7 +23,11 @@ function App() {
         <Route path='/categorias' element={<Categories />} />
         <Route path='/sobre-nosotros' element={<AboutUs />} />
         <Route path='/auth/:user_id' element={<User/>} >
-          <Route path='/auth/:user_id/:path' element={<UserTable/>} />
+          <Route index element={<UserIndex/>} />
+          <Route path='/auth/:user_id/users' element={<></>} />
+          <Route path='/auth/:user_id/categories' element={<></>} />
+          <Route path='/auth/:user_id/resources' element={<UserTable/>} />
+          <Route path='/auth/:user_id/collections' element={<></>} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/registro' element={<></>} />
