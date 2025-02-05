@@ -93,13 +93,7 @@ const Category = () => {
               <div className='animate-spin rounded-full h-12 w-12 border-4 border-[var(--purple)] border-t-transparent'></div>
             </div>
           ) : resources.length > 0 ? (
-            resources.map((resource) => {
-              const dataObject = {
-                image: resource.featuredImage.secure_url,
-                title: resource.title,
-              };
-              return <NewsCard key={resource.id} data={dataObject} />;
-            })
+            resources.map((resource) => <NewsCard key={resource.id} data={resource} />)
           ) : (
             <p className='text-center text-gray-500'>No hay recursos disponibles...</p>
           )}
