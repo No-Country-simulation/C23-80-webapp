@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router';
 
 const NewsCard = ({ data }) => {
   const navigate = useNavigate();
+  const handleResource = data.handle;
 
   const handleClic = () =>{
-    navigate('/resource', { state: data });
+    navigate(`/recurso/${handleResource}`, { state: data });
   }
 
   return(
