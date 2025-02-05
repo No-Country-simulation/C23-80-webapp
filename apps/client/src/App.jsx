@@ -7,6 +7,7 @@ import Explore from './Explore'
 import Categories from './Categories'
 import Login from './Login'
 import Category from './components/Category'
+import Signup from './Signup'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='/categorias' element={<Categories />} />
         <Route path='/sobre-nosotros' element={<AboutUs />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
         <Route path='/categoria/:handle' element={<Category />} />
       </Routes>
     </BrowserRouter>
