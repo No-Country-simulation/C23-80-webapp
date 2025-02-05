@@ -2,9 +2,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-const Carousel = ({ isCarousel = true, data = [], title = '', image = '', carrouselItems }) => {
-  const [currentImage, setCurrentImage] = useState(0);
+const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
   const navigate = useNavigate();
+  const [currentImage, setCurrentImage] = useState(0);
   const slides = isCarousel && data.length > 0 
   ? data 
   : [{ title, featuredImage: { secure_url: image } }];
@@ -25,7 +25,6 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = '', carrou
     }
   }
 
-  
   return(
     <div className='relative w-full max-w-[1200px] mx-auto'>
       {slides.length > 0 && slides[currentImage]?.featuredImage ? (
