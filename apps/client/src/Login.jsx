@@ -57,7 +57,7 @@ const Login = () => {
             </div>
 
             <a
-              href='/password_reset'
+              href='/password-reset'
               style={{color: 'var(--grey10)'}}
               className='text-sm hover:underline mb-6 inline-block'
             >
