@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchCategories } from './Apis';
-import Card from './components/Card';
+import CategoryCard from './components/CategoryCard';
 
 const Categories = () => {
   const [category, setCategory] = useState([]);
@@ -11,7 +11,7 @@ const Categories = () => {
       try {
         const categories = await fetchCategories();
         if (Array.isArray(categories) && categories.length > 0) {
-          setCategory(categories);          
+          setCategory(categories);     
         }
       } catch (err) {
         console.error('Error al obtener categoría:', err);
@@ -36,8 +36,9 @@ const Categories = () => {
                 const dataObject = {
                   backgroundImage: cat.featuredImage.secure_url,
                   title: cat.title,
+                  handle: cat.handle
                 };
-                return <Card key={cat.id} data={dataObject} />;
+                return <CategoryCard key={cat.id} data={dataObject} />;
               })
             ) : (
               <p className='text-center text-gray-500'>
