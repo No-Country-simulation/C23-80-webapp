@@ -22,3 +22,13 @@ export const fetchResourcesByHandle = async (handle) => {
     throw error;
   }
 };
+
+export const fetchLastResources = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/resources`);
+    return response.data.data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};

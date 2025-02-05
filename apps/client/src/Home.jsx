@@ -3,15 +3,17 @@ import NewsCard from './components/NewsCard';
 import SearchI from './components/Search';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { fetchCategories } from './Apis';
+import { fetchCategories, fetchLastResources } from './Apis';
 
 const Home = () => {
   const scrollRef = useRef(null);
   const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [resources, setResources] = useState([]);
+  const [isCategoriesLoading, setIsCategoryLoading] = useState(true);
+  const [isResourcesLoading, setIsResourcesLoading] = useState(true);
+  
   useEffect(() => {
-    const getResources = async () => {
+    const getCategories = async () => {
       try {
         const result = await fetchCategories();
         if (Array.isArray(result) && result.length > 0) {
@@ -22,10 +24,26 @@ const Home = () => {
       } catch (err) {
         console.error('Error al obtener datos:', err);
       } finally {
-        setIsLoading(false);
+        setIsCategoryLoading(false);
       }
     };
-    getResources();
+
+    const getLastResources = async () => {
+      try {
+        const result = await fetchLastResources();
+        if (Array.isArray(result) && result.length > 0) {
+          setResources(result.slice(0, 7));
+        } else {
+          setResources([]);
+        }
+      } catch (err) {
+        console.error('Error al obtener los recursos:', err);
+      } finally {
+        setIsResourcesLoading(false);
+      }
+    };
+    getCategories();
+    getLastResources();
   }, []);
   
   const scrollLeft = () => {
@@ -48,7 +66,7 @@ const Home = () => {
         <SearchI />
       </div>
       <div className='w-full min-h-[300px] lg:min-h-[500px] flex items-center justify-center'>
-        { isLoading ? (
+        { isCategoriesLoading ? (
             <div className='animate-spin rounded-full h-12 w-12 border-4 border-[var(--purple)] border-t-transparent'></div>
           ) : (
             <Carousel isCarousel={true} data={categories} />
@@ -63,19 +81,14 @@ const Home = () => {
           <ChevronLeft className='h-6 w-6 text-[var(--grey50)]'/>
         </button>
         <div ref={scrollRef} className='flex overflow-hidden space-x-4 py-2'>
-          { isLoading ? (
+          { isResourcesLoading ? (
             <div className='w-full flex justify-center items-center'>
               <div className='animate-spin rounded-full h-12 w-12 border-4 border-[var(--purple)] border-t-transparent'></div>
             </div>
           ) : (
-            <>
-              <NewsCard data={{image: 'https://picsum.photos/1000/500?random=1', title: 'Título'}}/>
-              <NewsCard data={{image: 'https://picsum.photos/1000/500?random=2', title: 'Título'}}/>
-              <NewsCard data={{image: 'https://picsum.photos/1000/500?random=3', title: 'Título'}}/>
-              <NewsCard data={{image: 'https://picsum.photos/1000/500?random=4', title: 'Título'}}/>
-              <NewsCard data={{image: 'https://picsum.photos/1000/500?random=5', title: 'Título'}}/>
-              <NewsCard data={{image: 'https://picsum.photos/1000/500?random=6', title: 'Título'}}/>
-            </>
+            resources.map(resource => (
+              <NewsCard key={resource.id} data={resource}/>
+            ))
           )}
         </div>
         <button

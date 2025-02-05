@@ -1,15 +1,15 @@
 import {Star, Bookmark} from 'lucide-react'
 
-const NewsCard = ({ data }) => {  
+const NewsCard = ({ data }) => { 
   const handleClic = () =>{    
   }
 
   return(
     <div className='bg-gray-200 min-w-[250px] max-w-sm w-full rounded-lg shadow-md overflow-hidden flex-shrink-0'>
       <div className='h-40 relative bg-gray-300'>
-        {data.image ? (
+        {data.featuredImage.secure_url ? (
           <img 
-            src={data.image} 
+            src={data.featuredImage.secure_url} 
             alt={data.title} 
             className='absolute top-0 left-0 w-full h-full object-cover'
           />
