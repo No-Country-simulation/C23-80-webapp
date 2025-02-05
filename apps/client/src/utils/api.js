@@ -18,7 +18,7 @@ export async function fetchData({ path = "/categorias", method = "GET", body = n
         });
         
         const data = await response.json();
-        if(response.status === 200) {
+        if(response.status === 200 || response.status === 201) {
             return data;
         } else {
             return null;

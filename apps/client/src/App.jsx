@@ -8,8 +8,10 @@ import Categories from './Categories'
 import Login from './Login'
 import Category from './components/Category'
 import User from './user'
-import UserTable from './components/user-table'
+import ResourceTable from './components/resource-table'
 import UserIndex from './components/UserIndex'
+import CategoryTable from './components/category-table'
+import CollectionTable from './components/collection-table'
 
 function App() {
 
@@ -25,9 +27,9 @@ function App() {
         <Route path='/auth/:user_id' element={<User/>} >
           <Route index element={<UserIndex/>} />
           <Route path='/auth/:user_id/users' element={<></>} />
-          <Route path='/auth/:user_id/categories' element={<></>} />
-          <Route path='/auth/:user_id/resources' element={<UserTable/>} />
-          <Route path='/auth/:user_id/collections' element={<></>} />
+          <Route path='/auth/:user_id/categories' element={<CategoryTable/>} />
+          <Route path='/auth/:user_id/resources' element={<ResourceTable/>} />
+          <Route path='/auth/:user_id/collections' element={<CollectionTable/>} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/registro' element={<></>} />
