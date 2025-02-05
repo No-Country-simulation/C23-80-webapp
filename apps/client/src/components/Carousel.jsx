@@ -35,7 +35,7 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
             className='w-full h-full object-cover'
           />
           <div className='absolute top-4 left-4 p-4 rounded-2xl bg-black/70'>
-            <h2 style={{color: 'var(--purple)'}} className='text-lg md:text-2xl lg:text-4xl font-bold'>{slides[currentImage].title}</h2>
+            <h2 style={{color: 'var(--grey60)'}} className='capitalize text-lg md:text-2xl lg:text-4xl font-bold'>{slides[currentImage].title}</h2>
           </div>
         </div>
       ) : (
