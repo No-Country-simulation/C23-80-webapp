@@ -11,7 +11,7 @@ const UserTable = () => {
     const { user } = useAuth();
 
     useEffect(() => {
-        fetchData({ path: `/resources/${user.id}?page=${pagination.page}&limit=${pagination.limit}` })
+        fetchData({ path: `/resources/by-user/${user.id}?page=${pagination.page}&limit=${pagination.limit}` })
             .then(setDatable);
     }, [pagination]);
 

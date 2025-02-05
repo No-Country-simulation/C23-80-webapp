@@ -64,6 +64,25 @@ export class ResourcesService {
     }
   }
 
+  async findAllByCategory(categoryHandle: string, paginationDto: PaginationDto) {
+    const { page, limit } = paginationDto;
+    const totalRecords = await this.db.skill.count({where: {categories: {some: {handle: categoryHandle}}, available: true}});
+    const totalPages = Math.ceil(totalRecords / limit);
+    return {
+      data: await this.db.skill.findMany({
+        where: {categories: {some: {handle: categoryHandle}}, available: true},
+        include: {reviews: {select: {rating: true}}},
+        take: limit,
+        skip: (page - 1) * limit
+      }),
+      meta: {
+        page,
+        totalRecords,
+        totalPages
+      }
+    }
+  }
+
   async findOne(handle: string) {
     const resource = await this.db.skill.findUnique({where: {handle, available: true}});
     
@@ -77,6 +96,10 @@ export class ResourcesService {
       }
     })
     return resource;
+  }
+
+  async findOneById(id: string) {
+    return await this.db.skill.findUnique({where: {id}});
   }
 
   update(id: string, updateResourceDto: UpdateResourceDto) {

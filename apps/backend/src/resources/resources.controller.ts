@@ -28,9 +28,20 @@ export class ResourcesController {
   }
 
   @Public()
+  @Get('by-category/:categoryHandle')
+  findAllByCategory(@Param('categoryHandle') categoryHandle: string, @Query() paginationDto: PaginationDto) {
+    return this.resourcesService.findAllByCategory(categoryHandle, paginationDto);
+  }
+
+  @Public()
   @Get(':handle')
   findOne(@Param('handle') handle: string) {
     return this.resourcesService.findOne(handle);
+  }
+
+  @Get('by-id:id')
+  findOneById(@Param('id') id: string) {
+    return this.resourcesService.findOneById(id);
   }
 
   @Patch(':id')
