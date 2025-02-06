@@ -62,15 +62,15 @@ const AboutUs = () => {
           <div className="w-full max-w-[1200px] mx-auto flex flex-col md:flex-row-reverse items-center justify-between py-16 px-6 space-y-6 md:space-y-0 gap-x-14">
             <h2 style={{ color: "var(--purple)" }} className="text-4xl md:text-6xl lg:text-7xl font-bold">¿Cómo funciona?</h2>
             <div className="space-y-6 md:w-1/2">
-            <p className="text-gray-700 text-lg">
-              Nuestra plataforma está diseñada para ser intuitiva y fácil de usar, permitiéndote encontrar, compartir y organizar recursos de desarrollo de software de manera eficiente.
-            </p>
-            <p className="text-gray-700 text-lg">
-              También ofrecemos repositorios específicos para distintos tipos de proyectos, como e-commerce, ERP y más. Nuestra plataforma permite a los usuarios registrarse y contribuir con nuevos repositorios, enriqueciendo así la comunidad.
-            </p>
-            <p className="text-gray-700 text-lg">
-              Además, contamos con un potente campo de búsqueda que permite filtrar recursos específicos de manera eficiente, facilitando la localización de información relevante.
-            </p>
+              <p className="text-gray-700 text-lg">
+                Nuestra plataforma está diseñada para ser intuitiva y fácil de usar, permitiéndote encontrar, compartir y organizar recursos de desarrollo de software de manera eficiente.
+              </p>
+              <p className="text-gray-700 text-lg">
+                También ofrecemos repositorios específicos para distintos tipos de proyectos, como e-commerce, ERP y más. Nuestra plataforma permite a los usuarios registrarse y contribuir con nuevos repositorios, enriqueciendo así la comunidad.
+              </p>
+              <p className="text-gray-700 text-lg">
+                Además, contamos con un potente campo de búsqueda que permite filtrar recursos específicos de manera eficiente, facilitando la localización de información relevante.
+              </p>
             </div>
           </div>
         </div>
