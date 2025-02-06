@@ -12,6 +12,9 @@ import ResourceTable from './components/resource-table'
 import UserIndex from './components/UserIndex'
 import CategoryTable from './components/category-table'
 import CollectionTable from './components/collection-table'
+import Signup from './Signup'
+import PasswordReset from './PasswordReset'
+import Resource from './Resource'
 
 function App() {
 
@@ -34,6 +37,11 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/registro' element={<></>} />
         <Route path='/category' element={<Category />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/password-reset' element={<PasswordReset />} />
+        <Route path='/categoria/:handle' element={<Category />} />
+        <Route path='/recurso/:handle' element={<Resource />} />
+        <Route path="*" element={<Home />} /> 
       </Routes>
     </BrowserRouter>
   )

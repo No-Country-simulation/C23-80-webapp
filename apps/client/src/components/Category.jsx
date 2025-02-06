@@ -3,29 +3,55 @@ import NewsCard from './NewsCard'
 import Carousel from './Carousel';
 import SearchI from './Search';
 import { useEffect, useRef, useState } from 'react';
-import { fetchCategories } from '../Apis';
+import { fetchCategories, fetchResourcesByHandle } from '../Apis';
+import { useNavigate, useParams } from 'react-router';
 
 const Category = () => {
   const scrollRef = useRef(null);
-  const [categorie, setCategorie] = useState([]);
-  const [error, setError] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [resources, setResources] = useState([]);
+  const { handle } = useParams();
+  const [isCategoryLoading, setIsCategoryLoading] = useState(true);
+  const [isResourcesLoading, setIsResourcesLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const getResources = async () => {
+    const fetchData = async () => {
       try {
-        const result = await fetchCategories();
-        if (Array.isArray(result) && result.length > 0) {
-          setCategorie(result);
-        } else {
-          setCategorie([]);
+        const categories = await fetchCategories();
+        if (Array.isArray(categories) && categories.length > 0) {
+          const filteredCategory = categories.find(item => item.handle === handle);
+          setCategory(filteredCategory || null);
         }
       } catch (err) {
-        console.error('Error al obtener datos:', err);
-        setError(err.message);
-      } 
+        console.error('Error al obtener categoría:', err);
+      } finally {
+        setIsCategoryLoading(false);
+      }
     };
-    getResources();
-  }, []);
+
+    const getResources = async () => {
+      try {
+        const resourcesData = await fetchResourcesByHandle(handle);
+        setResources(resourcesData);
+      } catch (err) {
+        console.error('Error al obtener recursos:', err);
+      } finally {
+        setIsResourcesLoading(false);
+      }
+    };
+
+    if (handle) {
+      fetchData();
+      getResources();
+    }
+  }, [handle]);
+
+  useEffect(() => {
+    if (!isCategoryLoading && category === null) {
+      navigate('/'); 
+    }
+  }, [isCategoryLoading, category, navigate]);
 
   const scrollLeft = () => {
     scrollRef.current.scrollBy({
@@ -43,44 +69,51 @@ const Category = () => {
 
   return (
     <div className='w-full flex flex-col items-center space-y-8 px-4 lg:px-8 my-10'>
-      <div className='w-full'>
-        {categorie.length > 0 ? (
-          <Carousel isCarousel={false} title={categorie[0].title} image={categorie[0].featuredImage.secure_url} />
+      <div className='w-full min-h-[300px] lg:min-h-[500px] flex justify-center items-center'>
+        {isCategoryLoading ? (
+          <div className='animate-spin rounded-full h-12 w-12 border-4 border-[var(--purple)] border-t-transparent'></div>
         ) : (
-          <p className='text-center text-gray-500'>Cargando categoría...</p>
+          <Carousel
+            isCarousel={false}
+            title={category?.title || 'Categoría sin título'}
+            image={category?.featuredImage?.secure_url || ''}
+          />
         )}
       </div>
-      <div className='w-full mt-6 flex justify-center'>
-        <SearchI />
-      </div>
+      <SearchI />
       <div className='w-full max-w-[1200px] relative mt-4'>
-        <h2 style={{color: 'var(--purple10)', font: 'var(--h2)'}} className='text-xl font-bold mb-4'>Recursos</h2>
+        <h2
+          style={{ color: 'var(--purple10)', font: 'var(--h2)' }}
+          className='text-xl font-bold mb-4'
+        >
+          Recursos
+        </h2>
         <button
           onClick={scrollLeft}
-          className='absolute left-3 top-1/2 -translate-y-1/2 bg-white/60 p-2 rounded-full shadow-md z-10'
+          className='absolute left-3 top-1/2 -translate-y-1/2 bg-gray-500 p-2 rounded-full shadow-md z-10'
         >
-          <ChevronLeft className='h-6 w-6 text-[var(--purple)]'/>
+          <ChevronLeft className='h-6 w-6 text-[var(--purple)]' />
         </button>
         <div ref={scrollRef} className='flex overflow-hidden space-x-4 py-2'>
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
+          {isResourcesLoading ? (
+            <div className='flex justify-center items-center w-full'>
+              <div className='animate-spin rounded-full h-12 w-12 border-4 border-[var(--purple)] border-t-transparent'></div>
+            </div>
+          ) : resources.length > 0 ? (
+            resources.map((resource) => <NewsCard key={resource.id} data={resource} />)
+          ) : (
+            <p className='text-center text-gray-500'>No hay recursos disponibles...</p>
+          )}
         </div>
         <button
           onClick={scrollRight}
-          className='absolute right-3 top-1/2 -translate-y-1/2 bg-white/60 p-2 rounded-full shadow-md z-10'
+          className='absolute right-3 top-1/2 -translate-y-1/2 bg-gray-500 p-2 rounded-full shadow-md z-10'
         >
-          <ChevronRight className='h-6 w-6 text-[var(--purple)]' />
+          <ChevronRight className='h-6 w-6 text-[var(--grey50)]' />
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Category;

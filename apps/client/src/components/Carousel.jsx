@@ -1,9 +1,14 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-const Carousel = ({ isCarousel = true, data = [], title = '', image = '', carrouselItems }) => {
+const Carousel = ({ isCarousel = true, data = [], title = '', image = ''}) => {
+  const navigate = useNavigate();
   const [currentImage, setCurrentImage] = useState(0);
-  const slides = isCarousel && data.length > 0 ? data : [{ title, featuredImage: { secure_url: image } }];
+  const slides = isCarousel && data.length > 0 
+  ? data 
+  : [{ title, featuredImage: { secure_url: image } }];
+  const handleCategory = slides[currentImage].handle;
   
   const prevSlide = () => {
     setCurrentImage((prev) => (prev === 0 ? carrouselItems.length - 1 : prev - 1))
@@ -12,18 +17,25 @@ const Carousel = ({ isCarousel = true, data = [], title = '', image = '', carrou
   const nextSlide = () => {
     setCurrentImage((prev) => (prev === carrouselItems.length - 1 ? 0 : prev + 1));
   }
-  
+
+
+  const handleClickCarousel = () => {
+    if(isCarousel){
+      navigate(`/categoria/${handleCategory}`);
+    }
+  }
+
   return(
     <div className='relative w-full max-w-[1200px] mx-auto'>
       {slides.length > 0 && slides[currentImage]?.featuredImage ? (
-        <div className='relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-lg shadow-lg'>
+        <div onClick={handleClickCarousel} className={`relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-lg shadow-lg ${isCarousel ? 'cursor-pointer' : ''}`}>
           <img 
             src={slides[currentImage].featuredImage.secure_url}
             alt={slides[currentImage].title}
             className='w-full h-full object-cover'
           />
           <div className='absolute top-4 left-4 p-4 rounded-2xl bg-black/70'>
-            <h2 style={{color: 'var(--purple)'}} className='text-lg md:text-2xl lg:text-4xl font-bold'>{slides[currentImage].title}</h2>
+            <h2 style={{color: 'var(--grey60)'}} className='capitalize text-lg md:text-2xl lg:text-4xl font-bold'>{slides[currentImage].title}</h2>
           </div>
         </div>
       ) : (
