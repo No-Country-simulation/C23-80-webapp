@@ -28,7 +28,7 @@ const NewsCard = ({ data }) => {
       </div>
       <div className='flex items-center justify-between p-4 bg-purple-200'>
         <span className='text-lg text-gray-800 font-semibold'>{data.title}</span>
-        <button onClick={handleClic} className='text-white text-sm rounded-md px-4 py-2 bg-[var(--purple10)] cursor-pointer active:scale-90 transition-transform duration-300' >
+        <button onClick={handleClic} className='text-white text-sm rounded-md px-4 py-2 bg-[var(--purple10)] cursor-pointer active:scale-90 transition-transform duration-300'>
           Ver más
         </button>
       </div>
